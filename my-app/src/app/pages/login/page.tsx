@@ -1,15 +1,14 @@
 import Image from "next/image";
-import { Button } from "@/components/Button";
+import { Button } from "@/src/components/Button";
 
 export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center">
-
       <div className="flex bg-white rounded-lg shadow-lg w-800 h-200">
 
         <div className="w-1/2 relative">
           <Image
-            src="/login-image.jpg"
+            src="/public/images/login-image.jpg"
             alt="Login"
             fill
             className="object-cover"
