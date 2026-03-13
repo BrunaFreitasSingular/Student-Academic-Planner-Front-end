@@ -21,7 +21,7 @@ export function Button({
     common: "bg-gray-400 text-white hover:bg-gray-600 transition",
     small: "text-xs bg-gray-400 text-white hover:bg-gray-600 transition",
     medium: "text-sm bg-gray-400 text-white hover:bg-gray-600 transition",
-    large: "text-lg px-3 py-1 bg-gray-400 text-white hover:bg-gray-600 transition",
+    large: "text-lg px-3 py-1 bg-gray-400 text-white hover:bg-gray-600 transition"
   }
 
   const className = `${base} ${variants[variant]}`
