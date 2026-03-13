@@ -1,15 +1,17 @@
-import { Button } from "../../../components/Button"
+//import { Button } from "../../../components/Button"
+//import Image from "next/image";
+import { ProfileCard } from "@/src/components/profileCard"
 
 export default function Dashboard() {
     return (
-        <div>
-            <h1>Profile</h1>
-            <ul className="list-inside space-y- gap-6 bg-gray-200 p-4">
-                <li>Name:</li>
-                <li>Course:</li>
-                <li>Semester:</li>
-            </ul>
-            <Button variant="common" href="/">VoltarHome</Button>
-        </div>
+    <div className="p-6 space-y-4">
+
+        <ProfileCard
+            name="Bruna Freitas"
+            course="Engenharia da Computação"
+            semester="4º"
+            image="/images/profile.jpg"
+        />
+    </div>
     );
 }
