@@ -22,5 +22,16 @@
     "id_user": 0,
     "totalAssessments": 0,
     "assessmentsWeights": []
+  },
+  {
+    "id": 1773409489479,
+    "name": "",
+    "credits": 0,
+    "year": 0,
+    "semester": 0,
+    "status": "",
+    "id_user": 0,
+    "totalAssessments": 0,
+    "assessmentsWeights": []
   }
 ]
