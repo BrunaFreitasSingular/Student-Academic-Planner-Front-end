@@ -40,17 +40,14 @@ export function DisciplineProvider({ children }: { children: ReactNode }) {
 
       {children}
 
-      {/* Modal de criação */}
       {activeModal === "createDiscipline" && (
         <DisciplineForm action={addDiscipline} onClose={closeModal} />
       )}
 
-      {/* Modal de edição */}
       {activeModal === "editDiscipline" && modalData && (
         <EditDisciplineForm discipline={modalData} onClose={closeModal} />
       )}
 
-      {/* Modal de exclusão */}
       {activeModal === "deleteDiscipline" && modalData && (
         <DeleteDiscipline discipline={modalData} onClose={closeModal} />
       )}
