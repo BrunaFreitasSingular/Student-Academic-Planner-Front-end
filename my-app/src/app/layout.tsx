@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import { Navbar } from "../components/Navbar";
+import { DisciplineProvider } from "@/src/context/DisciplineContext"
 
 export default function RootLayout({
   children,
@@ -8,10 +9,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-gray-100">
+      <body>
         <main>
-          <Navbar />
-          {children}
+          <DisciplineProvider>
+            <Navbar />
+            {children}
+          </DisciplineProvider>
         </main>
       </body>
     </html>
