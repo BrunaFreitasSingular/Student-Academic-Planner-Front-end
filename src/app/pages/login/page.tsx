@@ -5,7 +5,7 @@ import { Input } from "@/src/components/Input"
 export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="flex bg-white rounded-lg shadow-lg w-800 h-200">
+      <div className="flex bg-white rounded-lg shadow-lg w-[800px] h-[200px]">
 
         <div className="w-1/2 relative">
           <Image
