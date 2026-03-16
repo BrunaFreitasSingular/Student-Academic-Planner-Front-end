@@ -3,6 +3,7 @@ import { useState } from "react";
 import { addDiscipline } from "../actions/disciplines";
 import { Button } from "@/src/components/Button";
 import { DisciplineForm } from "@/src/components/DisciplineForm"
+import { LinkComponet } from "@/src/components/Link";
 
 export default function SubjectsPage() {
 
@@ -17,9 +18,9 @@ export default function SubjectsPage() {
         Adicionar Disciplina
       </Button>
 
-      <Button href="/" variant="small">
+      <LinkComponet href="/" variant="button">
         Voltar para Home
-      </Button>
+      </LinkComponet>
       
       {showForm && 
         <DisciplineForm

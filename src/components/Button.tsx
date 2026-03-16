@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { ButtonHTMLAttributes } from "react"
 
 type ButtonProps = {
@@ -9,7 +8,6 @@ type ButtonProps = {
 
 export function Button({
   variant = "common",
-  href,
   children,
   ...props
 }: ButtonProps) {
@@ -25,14 +23,6 @@ export function Button({
   }
 
   const className = `${base} ${variants[variant]}`
-
-  if (href) {
-    return (
-      <Link href={href} className={className}>
-        {children}
-      </Link>
-    )
-  }
 
   return (
     <button className={className} {...props}>
