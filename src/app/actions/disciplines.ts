@@ -44,7 +44,6 @@ export async function addDiscipline(formData: FormData): Promise<void> {
   await fs.writeFile(DATA_PATH, JSON.stringify(disciplines, null, 2));
 }
 
-
 export async function editDiscipline(formData: FormData): Promise<void> {
 
   const disciplines = await getDisciplines();
@@ -76,11 +75,6 @@ export async function editDiscipline(formData: FormData): Promise<void> {
 
   await fs.writeFile(DATA_PATH, JSON.stringify(updatedDisciplines, null, 2));
 }
-
-
-// ==============================
-// DELETE DISCIPLINE
-// ==============================
 
 export async function deleteDiscipline(formData: FormData): Promise<void> {
 

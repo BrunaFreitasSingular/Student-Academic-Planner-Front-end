@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react";
-import { addDiscipline } from "../../actions/disciplines";
+import { addDiscipline } from "../actions/disciplines";
 import { Button } from "@/src/components/Button";
 import { DisciplineForm } from "@/src/components/DisciplineForm"
 
