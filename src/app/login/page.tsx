@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/src/components/Button";
+import { Input } from "@/src/components/Input"
 
 export default function LoginPage() {
   return (
@@ -8,7 +9,7 @@ export default function LoginPage() {
 
         <div className="w-1/2 relative">
           <Image
-            src="/public/images/login-image.jpg"
+            src="/images/login-image.jpg"
             alt="Login"
             fill
             className="object-cover"
@@ -17,26 +18,18 @@ export default function LoginPage() {
 
         <div className="w-1/2 p-8 flex flex-col justify-center gap-4">
 
-          <h2 className="text-sm">
-            Access your account
-          </h2>
+        <h2 className="text-sm">
+          Access your account
+        </h2>
 
-          <input
-            type="email"
-            placeholder="Email"
-            className="border rounded p-2"
-          />
+        <Input placeholder="Email" name="email"/>
+        <Input placeholder="Password" name="password"/>
 
-          <input
-            type="password"
-            placeholder="Password"
-            className="border rounded p-2"
-          />
-
-          <Button href="/">Sign in</Button>
+          <div className="flex items-center flex-col gap-4">
+            <Button href="/" variant="small">Sign in</Button>
+            <Button variant="medium" href="/">Create account</Button>
+          </div>
           
-          <button className="text-sm text-gray-500 hover:underline">Create account</button>
-
         </div>
       </div>
     </div>

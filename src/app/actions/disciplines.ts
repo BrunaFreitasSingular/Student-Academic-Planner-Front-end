@@ -43,3 +43,48 @@ export async function addDiscipline(formData: FormData): Promise<void> {
   disciplines.push(newDiscipline);
   await fs.writeFile(DATA_PATH, JSON.stringify(disciplines, null, 2));
 }
+
+export async function editDiscipline(formData: FormData): Promise<void> {
+
+  const disciplines = await getDisciplines();
+
+  const id = Number(formData.get("id"));
+
+  const weights = formData
+    .getAll("assessmentsWeights")
+    .map((w) => Number(w));
+
+  const updatedDisciplines = disciplines.map((discipline) => {
+
+    if (discipline.id !== id) {
+      return discipline;
+    }
+
+    return {
+      ...discipline,
+      name: String(formData.get("name")),
+      credits: Number(formData.get("credits")),
+      year: Number(formData.get("year")),
+      semester: Number(formData.get("semester")),
+      status: String(formData.get("status")),
+      id_user: Number(formData.get("id_user")),
+      totalAssessments: Number(formData.get("totalAssessments")),
+      assessmentsWeights: weights
+    };
+  });
+
+  await fs.writeFile(DATA_PATH, JSON.stringify(updatedDisciplines, null, 2));
+}
+
+export async function deleteDiscipline(formData: FormData): Promise<void> {
+
+  const disciplines = await getDisciplines();
+
+  const id = Number(formData.get("id"));
+
+  const filteredDisciplines = disciplines.filter(
+    (discipline) => discipline.id !== id
+  );
+
+  await fs.writeFile(DATA_PATH, JSON.stringify(filteredDisciplines, null, 2));
+}
