@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1773328075610,
+    "name": "Programacao Paralela",
+    "credits": 4,
+    "year": 2026,
+    "semester": 2,
+    "status": "Planejada",
+    "id_user": 1,
+    "totalAssessments": 1,
+    "assessmentsWeights": [
+      10
+    ]
+  },
+  {
+    "id": 1773328561969,
+    "name": "",
+    "credits": 0,
+    "year": 0,
+    "semester": 0,
+    "status": "",
+    "id_user": 0,
+    "totalAssessments": 0,
+    "assessmentsWeights": []
+  },
+  {
+    "id": 1773409489479,
+    "name": "",
+    "credits": 0,
+    "year": 0,
+    "semester": 0,
+    "status": "",
+    "id_user": 0,
+    "totalAssessments": 0,
+    "assessmentsWeights": []
+  }
+]
