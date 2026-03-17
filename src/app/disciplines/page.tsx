@@ -14,11 +14,11 @@ export default function SubjectsPage() {
 
   return (
     <div>
-      <Button variant="small" onClick={openForm}>
+      <Button variant="secondary" onClick={openForm}>
         Adicionar Disciplina
       </Button>
 
-      <LinkComponet href="/" variant="button">
+      <LinkComponet href="/" variant="primary">
         Voltar para Home
       </LinkComponet>
       

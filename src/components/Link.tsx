@@ -2,20 +2,21 @@ import Link from "next/link"
 import { ButtonHTMLAttributes } from "react"
 
 type LinkProps = {
-  variant?: "button"
+  variant?: "primary" | "secondary"
   href: string
   children: React.ReactNode
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 export function LinkComponet({
-    variant = "button",
+    variant = "primary",
     href,
     children
 }:LinkProps){
     const base = "px-4 py-2 font-medium inline-block rounded-lg flex items-center justify-center"
 
     const variants = {
-        button: "text-xs bg-gray-400 text-white hover:bg-gray-600 transition"
+        primary: "text-xs bg-gray-400 text-white hover:bg-gray-600 transition",
+        secondary: "font-medium hover:underline"
     }
 
     const className = `${base} ${variants[variant]}`
