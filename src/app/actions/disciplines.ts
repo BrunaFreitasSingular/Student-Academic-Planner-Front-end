@@ -43,22 +43,27 @@ export async function addDiscipline(formData: FormData): Promise<void> {
   disciplines.push(newDiscipline);
   await fs.writeFile(DATA_PATH, JSON.stringify(disciplines, null, 2));
 }
-
 export async function editDiscipline(formData: FormData): Promise<void> {
-
   const disciplines = await getDisciplines();
 
   const id = Number(formData.get("id"));
+
+  if (!id) {
+    throw new Error("ID inválido para edição");
+  }
 
   const weights = formData
     .getAll("assessmentsWeights")
     .map((w) => Number(w));
 
-  const updatedDisciplines = disciplines.map((discipline) => {
+  let found = false;
 
+  const updatedDisciplines = disciplines.map((discipline) => {
     if (discipline.id !== id) {
       return discipline;
     }
+
+    found = true;
 
     return {
       ...discipline,
@@ -69,9 +74,13 @@ export async function editDiscipline(formData: FormData): Promise<void> {
       status: String(formData.get("status")),
       id_user: Number(formData.get("id_user")),
       totalAssessments: Number(formData.get("totalAssessments")),
-      assessmentsWeights: weights
+      assessmentsWeights: weights,
     };
   });
+
+  if (!found) {
+    throw new Error("Disciplina não encontrada");
+  }
 
   await fs.writeFile(DATA_PATH, JSON.stringify(updatedDisciplines, null, 2));
 }
@@ -87,4 +96,14 @@ export async function deleteDiscipline(formData: FormData): Promise<void> {
   );
 
   await fs.writeFile(DATA_PATH, JSON.stringify(filteredDisciplines, null, 2));
+}
+
+export async function getDisciplineByName(name: string): Promise<Discipline | null> {
+  const disciplines = await getDisciplines();
+
+  const discipline = disciplines.find(
+    (d) => d.name.toLowerCase() === name.toLowerCase()
+  );
+
+  return discipline || null;
 }
