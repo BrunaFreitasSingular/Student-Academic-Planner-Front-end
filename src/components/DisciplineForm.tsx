@@ -15,7 +15,25 @@ export function DisciplineForm({ action, onClose }: DisciplineFormProps) {
   const [totalAssessments, setTotalAssessments] = useState(0)
 
   return (
-    <form action={action}>
+    <form 
+        onKeyDown={(e) => {
+          if (e.key === "Enter") { 
+            e.preventDefault()
+            const form = e.currentTarget
+            const elements = Array.from(form.elements) as HTMLElement[]
+            const index = elements.indexOf(e.target as HTMLElement)
+
+            if (index > -1 && index < elements.length - 1) {
+              elements[index + 1].focus()
+            }
+          }
+    }}
+    action={async (formData) => {
+    await action(formData)
+    onClose()
+  }}
+>
+      
 
       <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center z-50">
         <div className="bg-gray-100 p-8 rounded-lg shadow-xl w-full max-w-md relative border">
@@ -51,13 +69,11 @@ export function DisciplineForm({ action, onClose }: DisciplineFormProps) {
             />
           ))}
 
-          <Button variant="small" type="submit">
+          <Button variant="secondary" type="submit">
             Salvar Disciplina
           </Button>
-
         </div>
       </div>
-
     </form>
   )
 }
