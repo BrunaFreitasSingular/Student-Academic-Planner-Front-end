@@ -15,7 +15,7 @@ export function LinkComponet({
     const base = "px-4 py-2 font-medium inline-block rounded-lg flex items-center justify-center"
 
     const variants = {
-        primary: "text-xs bg-gray-400 text-white hover:bg-gray-600 transition",
+        primary: "text-xs p-1 bg-gray-500 text-black hover:bg-gray-700 transition cursor-pointer",
         secondary: "font-medium hover:underline"
     }
 
