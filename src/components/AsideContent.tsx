@@ -34,22 +34,7 @@ export function AsideContent() {
       </div>
       <div className="flex flex-col gap-2 text-xs overflow-auto max-h-80">
         <ListSubject subjects={subjects} status="concluida" SubjectCard={SubjectCard}/>
-        {/* {subjects
-          .filter(
-            (subject) =>
-              subject.props.status.toLowerCase() === "concluida"
-          )
-          .map((subject) => (
-            <SubjectCard
-              key={subject.props.id}
-              name={subject.props.name}
-              credits={subject.props.credits}
-              year={subject.props.year}
-              semester={String(subject.props.semester)}
-              status={subject.props.status}
-              variant="approved"
-            />
-          ))} */}
+        
       </div>
     </div>
   );

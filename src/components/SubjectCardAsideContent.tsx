@@ -1,3 +1,4 @@
+import { SubjectType } from "../types/subject";
 import { Button } from "./Button";
 
 type SubjectProps = {
@@ -6,6 +7,7 @@ type SubjectProps = {
   year: number;
   semester: string;
   status: string;
+  type: SubjectType;
   variant?: "default" | "approved" | "reproved";
 };
 

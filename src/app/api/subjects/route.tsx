@@ -31,21 +31,17 @@ export async function POST(request: Request) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("ERRO DO BACKEND:", errorText)
-      throw new Error(errorText); 
+      return new Response(errorText, { status: response.status });
     }
 
     const data = await response.json()
 
     return Response.json(data)
-  } catch (error) {
-    console.error("ERRO POST:", error)
-
-    return new Response("Erro ao criar disciplina", {
-      status: 500,
-    });
+  } catch (error: unknown) {
+  const message = error instanceof Error ? error.message : "Erro desconhecido";
+  return new Response(
+    JSON.stringify({ message }),
+    { status: 500 }
+  );
   }
 }
-
-// //try get com react query +parse no schema
-// //? return new response : chach erro

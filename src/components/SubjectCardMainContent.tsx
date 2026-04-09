@@ -1,5 +1,6 @@
 "use client"
 
+import { SubjectType } from "../types/subject";
 import { Button } from "./Button";
 import { LinkComponet } from "./Link";
 
@@ -10,6 +11,7 @@ export type SubjectProps = {
   year: number;
   semester: string;
   status: string;
+  type: SubjectType;
   variant?: "default" | "approved" | "reproved";
   onEdit?: () => void;
 };
