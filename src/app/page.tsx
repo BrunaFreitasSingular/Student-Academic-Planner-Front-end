@@ -1,4 +1,5 @@
 import { Button } from "@/src/components/Button";
+import { LinkComponet } from "../components/Link";
 import { ProfileCard } from "../components/profileCard";
 
 export default function HomePage() {
@@ -14,8 +15,8 @@ export default function HomePage() {
       />
     </div>
     <div className="flex justify-center gap-5 ">
-      <Button href="/pages/disciplines">Ver disciplinas</Button>
-      <Button href="/pages/dashboard">Abrir Dashboard</Button>
+      <LinkComponet href="/subjects">Ver disciplinas</LinkComponet>
+      <LinkComponet href="/dashboard">Abrir Dashboard</LinkComponet>
     </div>
     </div>
     

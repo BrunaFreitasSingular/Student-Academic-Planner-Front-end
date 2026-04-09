@@ -1,6 +1,6 @@
 import { Button } from "./Button";
 
-type DisciplineProps = {
+type SubjectProps = {
   name: string;
   credits: number;
   year: number;
@@ -9,14 +9,14 @@ type DisciplineProps = {
   variant?: "default" | "approved" | "reproved";
 };
 
-export function DisciplineCard({
+export function SubjectCard({
   name,
   credits,
   year,
   semester,
   status,
   variant = "default"
-}: DisciplineProps) {
+}: SubjectProps) {
 
     const textBase = "text-sm text-gray-600";
 
