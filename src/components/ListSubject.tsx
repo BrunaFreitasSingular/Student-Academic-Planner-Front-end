@@ -3,6 +3,7 @@
 import { useModal } from "@/src/context/ModalContext"
 import { SubjectFromAPI } from "@/src/types/subject"
 import { SubjectProps } from "./SubjectCardMainContent"
+
 type SubjectCardComponent = React.ComponentType<SubjectProps>
 
 type Props = {
@@ -16,25 +17,25 @@ export function ListSubject({ subjects, status, SubjectCard }: Props) {
 
   const filteredSubjects = subjects?.filter((subject) => {
     if (!status) return true
-    return subject.props.status.toLowerCase() === status.toLowerCase()
+    return subject.status.toLowerCase() === status.toLowerCase()
   })
 
   return (
     <>
       {filteredSubjects?.map((subject) => (
         <SubjectCard
-          key={subject.props.id}
-          id={subject.props.id}
-          name={subject.props.name}
-          credits={subject.props.credits}
-          year={subject.props.year}
-          semester={String(subject.props.semester)}
-          status={subject.props.status}
+          key={subject.id}
+          id={subject.id}
+          name={subject.name}
+          credits={subject.credits}
+          year={subject.year}
+          semester={String(subject.semester)}
+          status={subject.status}
+          type={subject.type} 
           variant="default"
-          onEdit={() => openModal("editSubject", subject.props)}
+          onEdit={() => openModal("editSubject", subject)}
         />
-      )
-      )}
+      ))}
     </>
   )
 }

@@ -1,5 +1,11 @@
 import { Assessment } from "./assessment";
 
+export enum SubjectType {
+  REQUIRED = "REQUIRED",
+  ELECTIVE = "ELECTIVE",
+  COMPLEMENTARY = "COMPLEMENTARY"
+}
+
 export type Subject = {
   id: number 
   name: string
@@ -10,6 +16,7 @@ export type Subject = {
   id_user: number
   totalAssessments: number
   assessmentsWeights: number[]
+  type: SubjectType
 };
 
 export type CreateSubjectDTO = {
@@ -21,6 +28,7 @@ export type CreateSubjectDTO = {
   id_user: number
   totalAssessments: number
   assessmentsWeights: number[]
+  type: SubjectType
 }
 
 export type UpdateSubjectDTO = {
@@ -33,19 +41,21 @@ export type UpdateSubjectDTO = {
   id_user: number
   totalAssessments: number
   assessmentsWeights: number[]
+  type: SubjectType
 }
 
 export type SubjectFromAPI = {
-  assessments: Assessment[];
-  props: {
-    id: number
-    name: string
-    credits: number
-    year: number
-    semester: number
-    status: string
-    id_user: number
-    totalAssessments: number
-    assessmentsWeights: number[]
-  };
+  id: number
+  name: string
+  credits: number
+  year: number
+  semester: number
+  status: string
+  id_user: number
+  totalAssessments: number
+  assessmentsWeights: number[]
+  type: SubjectType
+  assessments: Assessment[]
+  average: number
+  concept: string
 };

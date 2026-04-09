@@ -24,14 +24,14 @@ const TabelaPeriodo = ({ subjects }: { subjects: SubjectFromAPI[]}) => {
           {subjects?.map((s, index) => (
             <tr key={index} className="border-b border-gray-300 last:border-0 hover:bg-gray-50">
               <td className="p-3 border-r border-gray-300 flex justify-between items-center">
-                {s.props.name}
+                {s.name}
                 <button className="text-gray-400 hover:text-blue-500">
                   <span className="text-xs">✎</span>
                 </button>
               </td>
-              <td className="p-3 border-r border-gray-300 text-center">{s.props.credits}</td>
+              <td className="p-3 border-r border-gray-300 text-center">{s.credits}</td>
               <td>conceitos</td>
-              <td className="p-3 italic text-gray-600">{s.props.status}</td>
+              <td className="p-3 italic text-gray-600">{s.status}</td>
             </tr>
           ))}
         </tbody>

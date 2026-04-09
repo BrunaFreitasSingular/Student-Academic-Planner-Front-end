@@ -5,6 +5,7 @@ import { useState } from "react"
 import { Input } from "@/src/components/Input"
 import { Button } from "@/src/components/Button"
 import { useCreateSubject } from "@/src/hooks/useCreateSubject"
+import { SubjectType } from "../types/subject"
 
 type Props = {
   onClose: () => void
@@ -32,6 +33,15 @@ export function SubjectForm({ onClose }: Props) {
           id_user: Number(formData.get("id_user")),
           totalAssessments: Number(formData.get("totalAssessments")),
           assessmentsWeights: formData.getAll("assessmentsWeights").map(Number),
+          type: formData.get("type") as SubjectType
+        }
+
+        const weights = formData.getAll("assessmentsWeights").map(Number)
+        const totalWeight = weights.reduce((sum, w) => sum + w, 0)
+
+        if (Math.abs(totalWeight - 10) > 0.01) {
+          alert("A soma dos pesos deve ser 10.")
+          return
         }
 
         mutation.mutate(data, {
@@ -54,7 +64,14 @@ export function SubjectForm({ onClose }: Props) {
           <Input label="Créditos" name="credits" type="number" />
           <Input label="Ano" name="year" type="number" />
           <Input label="Semestre" name="semester" type="number" />
-          <Input label="Status" name="status" />
+          
+          <label className="block text-sm font-medium">Status</label>
+          <select name="status" className="w-full border rounded p-2">
+            <option value="EM ANDAMENTO">Em andamento</option>
+            <option value="PLANEJADA">Planejada</option>
+            <option value="CONCLUIDA">Concluída</option>
+          </select>
+
           <Input label="Id do usuário" name="id_user" type="number" />
           
 
@@ -74,6 +91,13 @@ export function SubjectForm({ onClose }: Props) {
               step="0.1"
             />
           ))}
+
+          <label className="block text-sm font-medium">Tipo</label>
+          <select name="type" className="w-full border rounded p-2">
+            <option value={SubjectType.REQUIRED}>Obrigatória</option>
+            <option value={SubjectType.ELECTIVE}>Eletiva</option>
+            <option value={SubjectType.COMPLEMENTARY}>Complementar</option>
+          </select>
 
           <Button type="submit" disabled={mutation.isPending}>
            {mutation.isPending ? "Salvando..." : "Salvar"}
