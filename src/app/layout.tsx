@@ -1,6 +1,8 @@
 import "../styles/globals.css";
 import { Navbar } from "../components/Navbar";
-import { DisciplineProvider } from "@/src/context/DisciplineContext"
+import { SubjectProvider } from "@/src/context/ModalContext"
+import { Providers } from "./providers";
+
 
 export default function RootLayout({
   children,
@@ -12,9 +14,11 @@ export default function RootLayout({
       <body>
         <Navbar />
         <main>
-          <DisciplineProvider>
-            {children}
-          </DisciplineProvider>
+          <Providers>
+            <SubjectProvider>
+              {children}
+            </SubjectProvider>
+          </Providers>
         </main>
       </body>
     </html>

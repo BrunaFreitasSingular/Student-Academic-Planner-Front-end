@@ -1,3 +1,7 @@
+"use client";
+
+import { Providers } from "@/src/app/providers";
+
 export default function DashboardLayout({
     children,
 }:{
@@ -5,7 +9,9 @@ export default function DashboardLayout({
 }){
     return(
          <div>
-            {children}
+            <Providers>
+                {children}
+            </Providers>
         </div>
     )
 }
