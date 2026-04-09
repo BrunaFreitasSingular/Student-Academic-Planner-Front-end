@@ -5,6 +5,4 @@ export type Course = {
   transferredCredits: number
   electiveCredits: number
   complementaryCredits: number
-  numberOfComplementaryTypes: number
-  extensionHours: number
 }
