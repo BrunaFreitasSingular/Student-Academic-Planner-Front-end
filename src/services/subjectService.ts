@@ -1,7 +1,5 @@
 import { CreateSubjectDTO, UpdateSubjectDTO, SubjectFromAPI } from "@/src/types/subject"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 export async function getSubjects(): Promise<SubjectFromAPI[]> {
   const res = await fetch("/api/subjects")
 
@@ -23,7 +21,7 @@ export async function createSubject(data: CreateSubjectDTO) {
 
   if (!res.ok) {
     const errorText = await res.text()
-    console.error("ERRO REAL DO BACK:", errorText)
+    console.error("ERRO BACK:", errorText)
     throw new Error(errorText)
   }
 
@@ -31,7 +29,7 @@ export async function createSubject(data: CreateSubjectDTO) {
 }
 
 export async function updateSubject(data: UpdateSubjectDTO) {
-  const res = await fetch(`${API_URL}/subjects/${data.id}`, {
+  const res = await fetch(`api/subjects/${data.id}`, {
     method: "PUT", 
     headers: {
       "Content-Type": "application/json",
@@ -43,7 +41,7 @@ export async function updateSubject(data: UpdateSubjectDTO) {
 }
 
 export async function deleteSubject(id: number): Promise<void> {
-  await fetch(`${API_URL}/subjects/${id}`, {
+  await fetch(`api/subjects/${id}`, {
     method: "DELETE",
   })
 }
