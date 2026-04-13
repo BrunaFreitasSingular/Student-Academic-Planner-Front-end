@@ -9,7 +9,6 @@ import { DashboardContent } from "@/src/components/DashboardContent";
 
 export default function Dashboard() {
   const {
-    data: subjects,
     isLoading,
     isError,
   } = useListSubjects();
