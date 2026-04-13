@@ -3,7 +3,8 @@
 import { MainContent } from "@/src/components/MainContent";
 import { AsideContent } from "@/src/components/AsideContent";
 import { ProfileCard } from "@/src/components/profileCard";
-import  useListSubjects  from "@/src/hooks/useListSubject";
+import  useListSubjects  from "@/src/hooks/subjects/useListSubject";
+import { DashboardContent } from "@/src/components/DashboardContent";
 
 
 export default function Dashboard() {
@@ -27,8 +28,9 @@ export default function Dashboard() {
       />
 
       <main className="flex justify-between px-50">
-        <div>
+        <div className="flex flex-col">
           <MainContent/>
+          <DashboardContent/>
         </div>
         <div>
           <AsideContent/>
