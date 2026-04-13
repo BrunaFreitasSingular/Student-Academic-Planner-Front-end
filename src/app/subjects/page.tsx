@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/src/components/Button";
-import useSubjects from "@/src/hooks/useSubjects";
+import useSubjects from "@/src/hooks/subjects/useSubjects";
 import { SubjectFromAPI } from "@/src/types/subject";
 
 //criar tabela em arquivo separado

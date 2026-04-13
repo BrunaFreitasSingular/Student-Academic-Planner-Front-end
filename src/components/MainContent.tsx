@@ -2,7 +2,7 @@
 
 import { Button } from "./Button"
 import { useModal } from "@/src/context/ModalContext"
-import useListSubjects from "../hooks/useListSubject"
+import useListSubjects from "../hooks/subjects/useListSubject"
 import { ListSubject } from "./ListSubject"
 import { SubjectCard } from "./SubjectCardMainContent"
 

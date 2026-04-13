@@ -3,8 +3,8 @@
 import { MdClose } from "react-icons/md"
 import { Input } from "@/src/components/Input"
 import { Button } from "@/src/components/Button"
-import { useUpdateSubject } from "@/src/hooks/useUpdateSubject"
-import { Subject, UpdateSubjectDTO } from "@/src/types/subject"
+import { useUpdateSubject } from "@/src/hooks/subjects/useUpdateSubject"
+import { Subject, SubjectType, UpdateSubjectDTO } from "@/src/types/subject"
 import { useState } from "react"
 
 type Props = {
@@ -34,7 +34,8 @@ export function EditSubjectForm({ subject, onClose }: Props) {
           status: String(formData.get("status")),
           id_user: Number(formData.get("id_user")),
           totalAssessments: Number(formData.get("totalAssessments")),
-          assessmentsWeights: formData.getAll("assessmentsWeights").map(Number)
+          assessmentsWeights: formData.getAll("assessmentsWeights").map(Number),
+          type: formData.get("type") as SubjectType
         }
 
         mutation.mutate(data, {

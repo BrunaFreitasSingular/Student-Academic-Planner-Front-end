@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/src/components/Button"
-import { useDeleteSubject } from "@/src/hooks/useDeleteSubject"
+import { useDeleteSubject } from "@/src/hooks/subjects/useDeleteSubject"
 import { Subject } from "@/src/types/subject"
 import { useState } from "react"
 

@@ -4,7 +4,7 @@ import { MdClose } from "react-icons/md"
 import { useState } from "react"
 import { Input } from "@/src/components/Input"
 import { Button } from "@/src/components/Button"
-import { useCreateSubject } from "@/src/hooks/useCreateSubject"
+import { useCreateSubject } from "@/src/hooks/subjects/useCreateSubject"
 import { SubjectType } from "../types/subject"
 
 type Props = {
