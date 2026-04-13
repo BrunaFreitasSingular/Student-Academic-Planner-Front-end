@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { getSubjects } from "../services/subjectService"
-import { SubjectFromAPI } from "../types/subject"
+import { getSubjects } from "../../services/subjectService"
+import { SubjectFromAPI } from "../../types/subject"
 
 export default function useSubjects(){
 

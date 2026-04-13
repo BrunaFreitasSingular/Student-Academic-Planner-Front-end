@@ -6,7 +6,6 @@ export default function useListSubjects() {
   return useQuery<SubjectFromAPI[]>({
     queryKey: ["subjects"],
     queryFn: getSubjects,
-    // Opcional: Garante que 'data' comece como um array vazio em vez de undefined
     initialData: [], 
   });
 }
