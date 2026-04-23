@@ -1,6 +1,8 @@
 export type User = {
-  id: number | null
-  name: string
-  course_id: number
-  semester: number
-}
+  id: string;
+  email: string;
+  password_hash: string;
+  provider: string;
+  is_active: boolean;
+  created_at: Date;
+};

@@ -1,20 +1,19 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { createSubject } from "@/src/services/subjectService"
-import { Subject } from "@/src/types/subject"
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createSubject } from "@/src/services/subjectService";
+import { Subject } from "@/src/types/subject";
 
 export function useCreateSubject() {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (data: Omit<Subject, "id">) => createSubject(data),
 
     onSuccess: () => {
-
-      queryClient.invalidateQueries({ queryKey: ["subjects"] })
+      queryClient.invalidateQueries({ queryKey: ["subjects"] });
     },
 
     onError: (error) => {
-      console.error("Erro ao criar disciplina:", error)
-    }
-  })
+      console.error("Erro ao criar disciplina:", error);
+    },
+  });
 }

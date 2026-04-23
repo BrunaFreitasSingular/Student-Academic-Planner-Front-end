@@ -1,58 +1,114 @@
-"use client"
+"use client";
 
-import { Button } from "@/src/components/Button";
+import { Fragment } from "react";
+import { ProtectedRoute } from "@/src/components/ProtectedRoute";
 import useSubjects from "@/src/hooks/subjects/useSubjects";
 import { SubjectFromAPI } from "@/src/types/subject";
-
-//criar tabela em arquivo separado
-const TabelaPeriodo = ({ subjects }: { subjects: SubjectFromAPI[]}) => {
-  return (
-    <div className="overflow-auto max-h-130 rounded-lg border border-gray-300 shadow-sm">
-      <div className="bg-gray-300 p-3 font-bold text-gray-700">
-        Período: 2026/1
-      </div>
-      <table className="w-full text-left border-collapse">
-        <thead className="bg-gray-200 text-sm uppercase text-gray-600">
-          <tr>
-            <th className="p-3 border-b border-r border-gray-300">Disciplina</th>
-            <th className="p-3 border-b border-r border-gray-300 text-center">Créditos</th>
-            <th className="p-3 border-b border-r border-gray-300 text-center">Conceito</th>
-            <th className="p-3 border-b border-gray-300">Status</th>
-          </tr>
-        </thead>
-        <tbody className="bg-white">
-          {subjects?.map((s, index) => (
-            <tr key={index} className="border-b border-gray-300 last:border-0 hover:bg-gray-50">
-              <td className="p-3 border-r border-gray-300 flex justify-between items-center">
-                {s.name}
-                <button className="text-gray-400 hover:text-blue-500">
-                  <span className="text-xs">✎</span>
-                </button>
-              </td>
-              <td className="p-3 border-r border-gray-300 text-center">{s.credits}</td>
-              <td>conceitos</td>
-              <td className="p-3 italic text-gray-600">{s.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
 
 export default function SubjectsPage() {
   const { subjects } = useSubjects();
 
+  const grouped = (subjects ?? []).reduce<Record<string, SubjectFromAPI[]>>(
+    (acc, subject) => {
+      const key = `${subject.year}/${subject.semester}`;
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(subject);
+      return acc;
+    },
+    {},
+  );
+
+  const periodos = Object.keys(grouped).sort((a, b) => {
+    const [yearA, semA] = a.split("/").map(Number);
+    const [yearB, semB] = b.split("/").map(Number);
+    return yearB !== yearA ? yearB - yearA : semB - semA;
+  });
+
   return (
-    <div>
-      <main className="px-4">
-        <div className= "flex p-4 justify-end rounded-lg">
-          <Button variant="primary">
-            Cadastrar Disciplina
-          </Button>
+    <ProtectedRoute>
+      <div className="px-6 py-4 ">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-sm font-medium text-gray-900">Disciplinas</h1>
+          <button className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition">
+            + Cadastrar disciplina
+          </button>
         </div>
-        <TabelaPeriodo subjects={subjects || []} />
-      </main>
-    </div>
+
+        <div className="rounded-xl border border-gray-200 overflow-hidden">
+          <table className="w-full text-left border-collapse table-fixed">
+            <thead>
+              <tr className="bg-gray-50">
+                <th className="px-4 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider border-b border-gray-200 w-1/4">
+                  Disciplina
+                </th>
+                <th className="px-4 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider border-b border-gray-200 text-center w-1/4">
+                  Créditos
+                </th>
+                <th className="px-4 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider border-b border-gray-200 text-center w-1/4">
+                  Conceito
+                </th>
+                <th className="px-4 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider border-b border-gray-200 text-center w-1/4">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-100">
+              {periodos.map((periodo) => (
+                <Fragment key={periodo}>
+                  <tr>
+                    <td
+                      colSpan={4}
+                      className="px-4 py-2 bg-gray-50 text-xs font-medium text-gray-400 uppercase tracking-widest border-y border-gray-100"
+                    >
+                      Período {periodo}
+                    </td>
+                  </tr>
+                  {grouped[periodo].map((s, index) => (
+                    <tr
+                      key={`${periodo}-${index}`}
+                      className="hover:bg-gray-50 transition group"
+                    >
+                      <td className="px-4 py-3 text-sm text-gray-900 text-center">
+                        <div className="flex items-center justify-between">
+                          <span>{s.name}</span>
+                          <button className="opacity-0 group-hover:opacity-100 transition text-gray-300 hover:text-gray-500 text-xs px-2 py-0.5 rounded border border-gray-200">
+                            ✎
+                          </button>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-500 text-center">
+                        {s.credits}
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <span className="text-sm font-medium text-gray-700">
+                          {s.concept}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-center whitespace-nowrap">
+                        <span
+                          className={`text-xs px-2.5 py-1 rounded-full whitespace-nowrap${
+                            s.status === "CONCLUIDA"
+                              ? "bg-green-50 text-green-600"
+                              : s.status === "EM ANDAMENTO"
+                                ? "bg-blue-50 text-blue-600"
+                                : "bg-gray-100 text-gray-500"
+                          }`}
+                        >
+                          {s.status === "CONCLUIDA"
+                            ? "Concluída"
+                            : s.status === "EM ANDAMENTO"
+                              ? "Em andamento"
+                              : s.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </Fragment>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </ProtectedRoute>
   );
 }

@@ -1,29 +1,27 @@
-import Link from "next/link"
-import { ButtonHTMLAttributes } from "react"
+import Link from "next/link";
+import { ButtonHTMLAttributes } from "react";
 
 type LinkProps = {
-  variant?: "primary" | "secondary"
-  href: string
-  children: React.ReactNode
-} & ButtonHTMLAttributes<HTMLButtonElement>
+  variant?: "primary" | "secondary";
+  href: string;
+  children: React.ReactNode;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function LinkComponet({
-    variant = "primary",
-    href,
-    children
-}:LinkProps){
-    const base = "px-4 py-2 font-medium inline-block rounded-lg flex items-center justify-center"
+  variant = "primary",
+  href,
+  children,
+}: LinkProps) {
+  const variants = {
+    primary:
+      "text-xs px-3 py-1.5 bg-gray-100 text-gray-700 hover:bg-gray-200 transition rounded-lg inline-flex items-center",
+    secondary:
+      "text-sm text-gray-500 hover:text-gray-900 transition px-3 py-1.5 rounded-lg hover:bg-gray-50 inline-flex items-center",
+  };
 
-    const variants = {
-        primary: "text-xs p-1 bg-gray-500 text-black hover:bg-gray-700 transition cursor-pointer",
-        secondary: "font-medium hover:underline"
-    }
-
-    const className = `${base} ${variants[variant]}`
-
-    return (
-      <Link href={href} className={className}>
-        {children}
-      </Link>
-    )
+  return (
+    <Link href={href} className={variants[variant]}>
+      {children}
+    </Link>
+  );
 }

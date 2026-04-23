@@ -1,24 +1,23 @@
-"use client"
+"use client";
 
-import { useModal } from "@/src/context/ModalContext"
-import { SubjectFromAPI } from "@/src/types/subject"
-import { SubjectProps } from "./SubjectCardMainContent"
+import { useModal } from "@/src/context/ModalContext";
+import { SubjectFromAPI, SubjectCardProps } from "@/src/types/subject";
 
-type SubjectCardComponent = React.ComponentType<SubjectProps>
+type SubjectCardComponent = React.ComponentType<SubjectCardProps>;
 
 type Props = {
-  subjects: SubjectFromAPI[] | undefined
-  status?: string 
-  SubjectCard: SubjectCardComponent
-}
+  subjects: SubjectFromAPI[] | undefined;
+  status?: string;
+  SubjectCard: SubjectCardComponent;
+};
 
 export function ListSubject({ subjects, status, SubjectCard }: Props) {
-  const { openModal } = useModal()
+  const { openModal } = useModal();
 
   const filteredSubjects = subjects?.filter((subject) => {
-    if (!status) return true
-    return subject.status.toLowerCase() === status.toLowerCase()
-  })
+    if (!status) return true;
+    return subject.status.toLowerCase() === status.toLowerCase();
+  });
 
   return (
     <>
@@ -31,11 +30,12 @@ export function ListSubject({ subjects, status, SubjectCard }: Props) {
           year={subject.year}
           semester={String(subject.semester)}
           status={subject.status}
-          type={subject.type} 
-          variant="default"
+          type={subject.type}
+          concept={subject.concept}
+          average={subject.average}
           onEdit={() => openModal("editSubject", subject)}
         />
       ))}
     </>
-  )
+  );
 }

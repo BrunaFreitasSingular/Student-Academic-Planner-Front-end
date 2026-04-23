@@ -1,40 +1,40 @@
 "use client";
 
-import { SubjectCard } from "./SubjectCardAsideContent";
-import { FaSearch } from "react-icons/fa";
-import { LinkComponet } from "./Link";
-import { getSubjects } from "../services/subjectService";
-import { useEffect, useState } from "react";
-import { SubjectFromAPI } from "../types/subject";
+import { useStudentSubjects } from "../hooks/subjects/useStudentSubjects";
 import { ListSubject } from "./ListSubject";
+import { SubjectCardCompact } from "./SubjectCardCompact";
+import Link from "next/link";
 
 export function AsideContent() {
-  const [subjects, setSubjects] = useState<SubjectFromAPI[]>([])
-
-  useEffect(()=>{
-    async function loadSubjects() {
-      try{
-        const data = await getSubjects()
-        setSubjects(data)
-      } catch(error){
-        console.error("Erro ao buscar disciplinas:", error)
-      }
-    }
-    loadSubjects()
-  }, [])
+  const { data: subjects = [] } = useStudentSubjects();
 
   return (
-    <div className="space-y-4 w-100 bg-gray-500 rounded-2xl p-4">
-      <div className="flex justify-between">
-        <h3 className="font-semibold">Histórico de Disciplinas</h3>
-
-        <LinkComponet href="/subjects" variant="primary">
-          <FaSearch className="hover:text-gray-400 cursor-pointer" />
-        </LinkComponet>
+    <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-sm font-medium text-gray-900">Histórico</span>
+        <Link href="/subjects">
+          <button className="w-7 h-7 rounded-lg border border-gray-200 text-gray-400 hover:bg-gray-50 transition flex items-center justify-center">
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <circle cx="6.5" cy="6.5" r="5" />
+              <path d="M10.5 10.5L14 14" />
+            </svg>
+          </button>
+        </Link>
       </div>
-      <div className="flex flex-col gap-2 text-xs overflow-auto max-h-80">
-        <ListSubject subjects={subjects} status="concluida" SubjectCard={SubjectCard}/>
-        
+
+      <div className="flex flex-col divide-y divide-gray-100 overflow-auto max-h-80">
+        <ListSubject
+          subjects={subjects}
+          status="concluida"
+          SubjectCard={SubjectCardCompact}
+        />
       </div>
     </div>
   );

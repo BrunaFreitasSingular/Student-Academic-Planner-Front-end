@@ -4,17 +4,12 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import { SubjectForm } from "@/src/components/SubjectForm";
 import { EditSubjectForm } from "@/src/components/EditSubjectForm";
 import { DeleteSubject } from "@/src/components/DeleteSubject";
-import { addSubject } from "@/src/app/actions/subjects";
-import { Subject } from "@/src/types/subject";
+import { SubjectFromAPI } from "@/src/types/subject";
 
-type ModalType =
-  | "createSubject"
-  | "editSubject"
-  | "deleteSubject"
-  | null;
+type ModalType = "createSubject" | "editSubject" | "deleteSubject" | null;
 
 type ModalContextType = {
-  openModal: (modal: ModalType, data?: Subject) => void;
+  openModal: (modal: ModalType, data?: SubjectFromAPI) => void;
   closeModal: () => void;
 };
 
@@ -22,9 +17,9 @@ const ModalContext = createContext<ModalContextType | null>(null);
 
 export function SubjectProvider({ children }: { children: ReactNode }) {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
-  const [modalData, setModalData] = useState<Subject | null>(null);
+  const [modalData, setModalData] = useState<SubjectFromAPI | null>(null);
 
-  function openModal(modal: ModalType, data?: Subject) {
+  function openModal(modal: ModalType, data?: SubjectFromAPI) {
     setActiveModal(modal);
     setModalData(data ?? null);
   }
@@ -38,9 +33,7 @@ export function SubjectProvider({ children }: { children: ReactNode }) {
     <ModalContext.Provider value={{ openModal, closeModal }}>
       {children}
 
-      {activeModal === "createSubject" && (
-        <SubjectForm onClose={closeModal} />
-      )}
+      {activeModal === "createSubject" && <SubjectForm onClose={closeModal} />}
 
       {activeModal === "editSubject" && modalData && (
         <EditSubjectForm subject={modalData} onClose={closeModal} />

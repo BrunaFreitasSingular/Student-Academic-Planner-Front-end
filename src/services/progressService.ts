@@ -1,10 +1,8 @@
 import { Progress } from "../types/progress";
 
-export async function getProgress(userid: number): Promise<Progress> {
-
-  const user_id = String(userid)
-
+export async function getProgress(user_id: string): Promise<Progress> {
   const res = await fetch(`/api/progress/${user_id}`);
+
   if (!res.ok) {
     const errorText = await res.text();
     console.error("ERRO REAL DO BACK:", errorText);

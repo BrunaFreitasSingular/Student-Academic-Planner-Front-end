@@ -1,8 +1,7 @@
 import "../styles/globals.css";
 import { Navbar } from "../components/Navbar";
-import { SubjectProvider } from "@/src/context/ModalContext"
+import { SubjectProvider } from "@/src/context/ModalContext";
 import { Providers } from "./providers";
-
 
 export default function RootLayout({
   children,
@@ -15,9 +14,7 @@ export default function RootLayout({
         <Navbar />
         <main>
           <Providers>
-            <SubjectProvider>
-              {children}
-            </SubjectProvider>
+            <SubjectProvider>{children}</SubjectProvider>
           </Providers>
         </main>
       </body>
