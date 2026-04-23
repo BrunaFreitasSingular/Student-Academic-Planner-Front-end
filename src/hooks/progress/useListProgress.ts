@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "@/src/context/AuthContext"; // ← importa o auth
 import { getProgress } from "../../services/progressService";
 import { Progress } from "../../types/progress";
 
 export function useListProgress(user_id: string) {
+  const { token } = useAuth(); // ← pega o token
   const [data, setData] = useState<Progress | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -17,12 +19,10 @@ export function useListProgress(user_id: string) {
 
         setLoading(true);
 
-        const response = await getProgress(user_id);
+        const response = await getProgress(user_id, token); // ← passa o token
         setData(response);
       } catch (error: unknown) {
-        console.error("ERRO REAL:", error);
-        const message =
-          error instanceof Error ? error.message : "Erro desconhecido";
+        const message = error instanceof Error ? error.message : "Erro desconhecido";
         setError(message);
       } finally {
         setLoading(false);
@@ -30,6 +30,7 @@ export function useListProgress(user_id: string) {
     }
 
     fetchData();
-  }, [user_id]);
+  }, [user_id, token]); // ← token na dependência
+
   return { data, loading, error };
 }

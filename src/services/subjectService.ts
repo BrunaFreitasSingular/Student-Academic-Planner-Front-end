@@ -1,8 +1,10 @@
 import { CreateSubjectDTO, UpdateSubjectDTO } from "@/src/types/subject";
+import { createApi } from "@/lib/api";
 
-export async function getSubjects(id_student: number) {
-  const res = await fetch(`/api/subjects?id_student=${id_student}`);
+type Api = ReturnType<typeof createApi>;
 
+export async function getSubjects(id_student: number, api: Api) {
+  const res = await api.get(`/api/subjects?id_student=${id_student}`);
   const text = await res.text();
 
   if (!res.ok) {
@@ -17,14 +19,8 @@ export async function getSubjects(id_student: number) {
   }
 }
 
-export async function createSubject(data: CreateSubjectDTO) {
-  const res = await fetch("/api/subjects", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+export async function createSubject(data: CreateSubjectDTO, api: Api) {
+  const res = await api.post("/api/subjects", data);
 
   if (!res.ok) {
     const errorText = await res.text();
@@ -35,24 +31,13 @@ export async function createSubject(data: CreateSubjectDTO) {
   return res.json();
 }
 
-export async function updateSubject(data: UpdateSubjectDTO) {
-  if (!data.id) {
-    throw new Error("ID é obrigatório no updateSubject");
-  }
+export async function updateSubject(data: UpdateSubjectDTO, api: Api) {
+  if (!data.id) throw new Error("ID é obrigatório no updateSubject");
 
-  const res = await fetch(`/api/subjects/${data.id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
+  const res = await api.put(`/api/subjects/${data.id}`, data);
   return res.json();
 }
 
-export async function deleteSubject(id: number): Promise<void> {
-  await fetch(`/api/subjects/${id}`, {
-    method: "DELETE",
-  });
+export async function deleteSubject(id: number, api: Api): Promise<void> {
+  await api.delete(`/api/subjects/${id}`);
 }

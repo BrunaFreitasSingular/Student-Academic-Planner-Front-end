@@ -6,6 +6,7 @@ export async function GET(
 ) {
   try {
     const { user_id } = await params;
+    const authHeader = req.headers.get("Authorization"); // ← pega o token
 
     if (!user_id) {
       return NextResponse.json({ error: "user_id inválido" }, { status: 400 });
@@ -13,6 +14,11 @@ export async function GET(
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/progress/${user_id}`,
+      {
+        headers: {
+          ...(authHeader ? { Authorization: authHeader } : {}), // ← repassa pro Fastify
+        },
+      }
     );
 
     const data = await res.json();
