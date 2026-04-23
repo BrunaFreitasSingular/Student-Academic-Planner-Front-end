@@ -2,11 +2,11 @@
 
 import { Fragment } from "react";
 import { ProtectedRoute } from "@/src/components/ProtectedRoute";
-import { useStudentSubjects } from "@/src/hooks/subjects/useStudentSubjects"; 
+import { useStudentSubjects } from "@/src/hooks/subjects/useStudentSubjects";
 import { SubjectFromAPI } from "@/src/types/subject";
 
 export default function SubjectsPage() {
-  const { data: subjects } = useStudentSubjects(); 
+  const { data: subjects } = useStudentSubjects();
 
   const grouped = (subjects ?? []).reduce<Record<string, SubjectFromAPI[]>>(
     (acc, subject) => {

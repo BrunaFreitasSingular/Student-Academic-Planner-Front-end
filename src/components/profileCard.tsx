@@ -21,7 +21,7 @@ export function ProfileCard({
           alt="Foto de perfil"
           width={44}
           height={44}
-          className="rounded-full object-cover border border-gray-200 flex-shrink-0"
+          className="rounded-full object-cover border border-gray-200 shrink-0"
         />
         <div>
           <p className="text-sm font-medium text-gray-900">{name}</p>

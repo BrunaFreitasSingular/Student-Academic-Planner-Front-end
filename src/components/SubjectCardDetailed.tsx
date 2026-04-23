@@ -37,7 +37,7 @@ export function SubjectCardDetailed({
         </p>
       </div>
 
-      <div className="flex items-center gap-2 flex-shrink-0 ml-3">
+      <div className="flex items-center gap-2 shrink-0 ml-3">
         <span className="text-xs px-2 py-1 rounded-full bg-blue-50 text-blue-600">
           {status}
         </span>
