@@ -2,11 +2,11 @@
 
 import { Fragment } from "react";
 import { ProtectedRoute } from "@/src/components/ProtectedRoute";
-import useSubjects from "@/src/hooks/subjects/useSubjects";
+import { useStudentSubjects } from "@/src/hooks/subjects/useStudentSubjects"; 
 import { SubjectFromAPI } from "@/src/types/subject";
 
 export default function SubjectsPage() {
-  const { subjects } = useSubjects();
+  const { data: subjects } = useStudentSubjects(); 
 
   const grouped = (subjects ?? []).reduce<Record<string, SubjectFromAPI[]>>(
     (acc, subject) => {
@@ -26,7 +26,7 @@ export default function SubjectsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="px-6 py-4 ">
+      <div className="px-6 py-4">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-sm font-medium text-gray-900">Disciplinas</h1>
           <button className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition">
@@ -68,7 +68,7 @@ export default function SubjectsPage() {
                       key={`${periodo}-${index}`}
                       className="hover:bg-gray-50 transition group"
                     >
-                      <td className="px-4 py-3 text-sm text-gray-900 text-center">
+                      <td className="px-4 py-3 text-sm text-gray-900">
                         <div className="flex items-center justify-between">
                           <span>{s.name}</span>
                           <button className="opacity-0 group-hover:opacity-100 transition text-gray-300 hover:text-gray-500 text-xs px-2 py-0.5 rounded border border-gray-200">
@@ -86,7 +86,7 @@ export default function SubjectsPage() {
                       </td>
                       <td className="px-4 py-3 text-center whitespace-nowrap">
                         <span
-                          className={`text-xs px-2.5 py-1 rounded-full whitespace-nowrap${
+                          className={`text-xs px-2.5 py-1 rounded-full whitespace-nowrap ${
                             s.status === "CONCLUIDA"
                               ? "bg-green-50 text-green-600"
                               : s.status === "EM ANDAMENTO"
