@@ -2,14 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
+import { loginRequest, registerRequest } from "@/src/services/authService";
 import { useAuth } from "@/src/context/AuthContext";
-import { loginRequest } from "@/src/services/authService";
-import { getStudentByUserId } from "@/src/services/studentService";
 
-export function useLogin() {
+export function useRegister() {
   const { login } = useAuth();
-  const queryClient = useQueryClient();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -19,15 +16,12 @@ export function useLogin() {
     setError(null);
 
     try {
+      await registerRequest(email, password);
       const auth = await loginRequest(email, password);
       login(auth);
-
-      const student = await getStudentByUserId(auth.user.id);
-      queryClient.setQueryData(["student", auth.user.id], student);
-
-      router.push(student ? "/dashboard" : "/complete-profile");
+      router.push("/complete-profile");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao fazer login");
+      setError(err instanceof Error ? err.message : "Erro ao cadastrar");
     } finally {
       setLoading(false);
     }

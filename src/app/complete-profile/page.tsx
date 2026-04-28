@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useCreateStudent } from "@/src/hooks/student/useCreateStudent";
+import { useCourses } from "@/src/hooks/courses/useCourses";
 import { Input } from "@/src/components/Input";
 import { Button } from "@/src/components/Button";
 
@@ -10,6 +11,11 @@ export default function CompleteProfilePage() {
   const [courseId, setCourseId] = useState("");
   const [semester, setSemester] = useState("");
   const { submit, error, loading } = useCreateStudent();
+  const {
+    data: courses,
+    isLoading: coursesLoading,
+    isError: coursesError,
+  } = useCourses();
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -28,13 +34,30 @@ export default function CompleteProfilePage() {
           onChange={(e) => setName(e.target.value)}
         />
 
-        <Input
-          label="ID do curso"
-          type="number"
-          placeholder="Ex: 1"
-          value={courseId}
-          onChange={(e) => setCourseId(e.target.value)}
-        />
+        <div className="flex flex-col gap-1">
+          <label htmlFor="courseId">Curso</label>
+          <select
+            id="courseId"
+            name="courseId"
+            value={courseId}
+            onChange={(e) => setCourseId(e.target.value)}
+            disabled={coursesLoading || coursesError}
+            className="border p-2 rounded bg-white"
+          >
+            <option value="" disabled>
+              {coursesLoading
+                ? "Carregando cursos..."
+                : coursesError
+                  ? "Erro ao carregar cursos"
+                  : "Selecione um curso"}
+            </option>
+            {courses?.map((course) => (
+              <option key={course.id} value={course.id}>
+                {course.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <Input
           label="Semestre atual"

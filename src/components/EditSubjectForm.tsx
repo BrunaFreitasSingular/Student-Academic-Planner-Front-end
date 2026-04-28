@@ -5,7 +5,7 @@ import { Input } from "@/src/components/Input";
 import { useUpdateSubject } from "@/src/hooks/subjects/useUpdateSubject";
 import { SubjectFromAPI, UpdateSubjectDTO } from "@/src/types/subject";
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useStudent } from "@/src/hooks/student/useStudent";
 import { Button } from "./Button";
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
 export function EditSubjectForm({ subject, onClose }: Props) {
   const mutation = useUpdateSubject();
   const [disabled, setDisabled] = useState(false);
-  const { user } = useAuth();
+  const { data: student } = useStudent();
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/20">
@@ -38,7 +38,7 @@ export function EditSubjectForm({ subject, onClose }: Props) {
           onSubmit={(e) => {
             e.preventDefault();
 
-            if (!user?.student?.id) {
+            if (!student?.id) {
               alert("Usuário não autenticado");
               return;
             }
@@ -58,7 +58,7 @@ export function EditSubjectForm({ subject, onClose }: Props) {
               year: Number(formData.get("year")),
               semester: Number(formData.get("semester")),
               status: String(formData.get("status")),
-              id_student: user.student.id,
+              id_student: student.id,
               totalAssessments: subject.totalAssessments,
               assessmentsWeights: subject.assessments.map((a) => a.weight),
               type: subject.type,

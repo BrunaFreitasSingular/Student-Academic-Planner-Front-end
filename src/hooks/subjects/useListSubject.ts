@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { getSubjects } from "@/src/services/subjectService";
 import { SubjectFromAPI } from "@/src/types/subject";
-import { useAuth } from "@/src/context/AuthContext";
+import { useStudent } from "@/src/hooks/student/useStudent";
 
 export default function useListSubjects() {
-  const { user } = useAuth();
-  const studentId = user?.student?.id;
+  const { data: student } = useStudent();
+  const studentId = student?.id;
 
   return useQuery<SubjectFromAPI[]>({
     queryKey: ["subjects", studentId],

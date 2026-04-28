@@ -1,21 +1,23 @@
 "use client";
 
 import { useAuth } from "@/src/context/AuthContext";
+import { useStudent } from "@/src/hooks/student/useStudent";
 import { ProfileCard } from "./profileCard";
 import { LinkComponet } from "./Link";
 import Link from "next/link";
 
 export function HomeContent() {
-  const { user, token } = useAuth();
+  const { token } = useAuth();
+  const { data: student } = useStudent();
 
-  if (token && user?.student) {
+  if (token && student) {
     return (
       <div className="space-y-4">
         <div className="p-6 space-y-4">
           <ProfileCard
-            name={user.student.name}
-            course={user.student.course_name}
-            semester={`${user.student.semester}º`}
+            name={student.name}
+            course={student.course_name ?? "—"}
+            semester={`${student.semester}º`}
             image="/images/profile.jpg"
           />
         </div>

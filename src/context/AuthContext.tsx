@@ -8,22 +8,15 @@ import {
   type ReactNode,
 } from "react";
 
-export type AuthDTO = {
-  token: string;
-  user: {
-    id: string;
-    email: string;
-    student: {
-      id: number;
-      name: string;
-      course_id: number;
-      course_name: string;
-      semester: number;
-    } | null;
-  };
+export type AuthUser = {
+  id: string;
+  email: string;
 };
 
-type AuthUser = AuthDTO["user"];
+export type AuthDTO = {
+  token: string;
+  user: AuthUser;
+};
 
 type AuthState = {
   user: AuthUser | null;
@@ -37,8 +30,18 @@ type AuthContextType = AuthState & {
 };
 
 const INITIAL_STATE: AuthState = { user: null, token: null };
+const STORAGE_KEY = "auth";
 
 const AuthContext = createContext<AuthContextType | null>(null);
+
+function persist(state: AuthState) {
+  if (typeof window === "undefined") return;
+  if (!state.token) {
+    window.sessionStorage.removeItem(STORAGE_KEY);
+    return;
+  }
+  window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [auth, setAuth] = useState<AuthState>(INITIAL_STATE);
@@ -46,26 +49,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const saved = sessionStorage.getItem("auth");
+      const saved = sessionStorage.getItem(STORAGE_KEY);
       if (saved) {
-        setAuth(JSON.parse(saved));
+        const parsed = JSON.parse(saved) as AuthState;
+        setAuth({
+          user: parsed.user ?? null,
+          token: parsed.token ?? null,
+        });
       }
     } catch {
-      sessionStorage.removeItem("auth");
+      sessionStorage.removeItem(STORAGE_KEY);
     } finally {
       setIsLoading(false);
     }
   }, []);
 
   function login(data: AuthDTO) {
-    const next = { user: data.user, token: data.token };
+    const next: AuthState = { user: data.user, token: data.token };
     setAuth(next);
-    sessionStorage.setItem("auth", JSON.stringify(next));
+    persist(next);
   }
 
   function logout() {
     setAuth(INITIAL_STATE);
-    sessionStorage.removeItem("auth");
+    persist(INITIAL_STATE);
   }
 
   return (

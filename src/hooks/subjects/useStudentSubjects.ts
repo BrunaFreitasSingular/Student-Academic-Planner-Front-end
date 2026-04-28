@@ -1,17 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/src/context/AuthContext";
+import { useStudent } from "@/src/hooks/student/useStudent";
 import { getSubjects } from "@/src/services/subjectService";
 import { SubjectFromAPI } from "@/src/types/subject";
-import { createApi } from "@/lib/api";
 
 export function useStudentSubjects() {
-  const { token, user } = useAuth();
-  const api = createApi(token);
-  const id_student = user?.student?.id;
+  const { data: student } = useStudent();
+  const studentId = student?.id;
 
   return useQuery<SubjectFromAPI[]>({
-    queryKey: ["subjects", id_student],
-    queryFn: () => getSubjects(id_student!, api),
-    enabled: !!id_student,
+    queryKey: ["subjects", studentId],
+    queryFn: () => {
+      if (!studentId) throw new Error("Usuário não autenticado");
+      return getSubjects(studentId);
+    },
+    enabled: !!studentId,
+    initialData: [],
   });
 }

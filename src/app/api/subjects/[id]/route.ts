@@ -1,37 +1,42 @@
+import { forwardAuth } from "../../_lib/forward";
+
+export async function GET(
+  request: Request,
+  context: { params: Promise<{ id: string }> },
+) {
+  const { id } = await context.params;
+
+  const upstream = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/subjects/${id}`,
+    { headers: forwardAuth(request) },
+  );
+
+  return new Response(await upstream.text(), {
+    status: upstream.status,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
 export async function PUT(
   request: Request,
   context: { params: Promise<{ id: string }> },
 ) {
-  try {
-    const { id } = await context.params;
-    const body = await request.json();
+  const { id } = await context.params;
+  const body = await request.text();
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/subjects/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      },
-    );
+  const upstream = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/subjects/${id}`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", ...forwardAuth(request) },
+      body,
+    },
+  );
 
-    const text = await response.text();
-
-    if (!response.ok) {
-      console.error("ERRO PUT:", text);
-      throw new Error(text);
-    }
-
-    return Response.json(JSON.parse(text));
-  } catch (error) {
-    console.error("ERRO COMPLETO PUT:", error);
-
-    return new Response("Erro ao atualizar disciplina", {
-      status: 500,
-    });
-  }
+  return new Response(await upstream.text(), {
+    status: upstream.status,
+    headers: { "Content-Type": "application/json" },
+  });
 }
 
 export async function PATCH(
@@ -39,27 +44,21 @@ export async function PATCH(
   context: { params: Promise<{ id: string }> },
 ) {
   const { id } = await context.params;
-  const body = await request.json();
+  const body = await request.text();
 
-  const response = await fetch(
+  const upstream = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/subjects/${id}`,
     {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json", ...forwardAuth(request) },
+      body,
     },
   );
 
-  const text = await response.text();
-
-  if (!response.ok) {
-    console.error("ERRO PATCH:", text);
-    throw new Error(text);
-  }
-
-  return Response.json(JSON.parse(text));
+  return new Response(await upstream.text(), {
+    status: upstream.status,
+    headers: { "Content-Type": "application/json" },
+  });
 }
 
 export async function DELETE(
@@ -68,42 +67,20 @@ export async function DELETE(
 ) {
   const { id } = await context.params;
 
-  const response = await fetch(
+  const upstream = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/subjects/${id}`,
     {
       method: "DELETE",
+      headers: forwardAuth(request),
     },
   );
 
-  if (!response.ok) {
-    const text = await response.text();
-    console.error("ERRO DELETE:", text);
-    throw new Error(text);
+  if (upstream.status === 204 || upstream.status === 200) {
+    return new Response(null, { status: 204 });
   }
 
-  return new Response(null, { status: 204 });
-}
-
-export async function GET(
-  request: Request,
-  context: { params: Promise<{ id: string }> },
-) {
-  const { id } = await context.params;
-
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/subjects/${id}`,
-  );
-
-  const text = await response.text();
-
-  if (!response.ok) {
-    console.error("ERRO GET:", text);
-    throw new Error(text);
-  }
-
-  try {
-    return Response.json(JSON.parse(text));
-  } catch {
-    return new Response(text);
-  }
+  return new Response(await upstream.text(), {
+    status: upstream.status,
+    headers: { "Content-Type": "application/json" },
+  });
 }

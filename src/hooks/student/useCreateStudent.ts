@@ -2,56 +2,37 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/src/context/AuthContext";
+import { createStudent } from "@/src/services/studentService";
 
 export function useCreateStudent() {
-  const { user, login, token } = useAuth();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   async function submit(name: string, course_id: number, semester: number) {
-    if (!user) return;
+    if (!user) {
+      setError("Usuário não autenticado");
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
     try {
-      const res = await fetch("/api/student", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: user.id,
-          name,
-          course_id,
-          semester,
-        }),
+      const student = await createStudent({
+        user_id: user.id,
+        name,
+        course_id,
+        semester,
       });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message ?? "Erro ao criar perfil");
-        return;
-      }
-
-      // atualiza o AuthContext com o student criado
-      login({
-        token: token!,
-        user: {
-          ...user,
-          student: {
-            id: data.id,
-            name: data.name,
-            course_id: data.course_id,
-            course_name: "",
-            semester: data.semester,
-          },
-        },
-      });
-
+      queryClient.setQueryData(["student", user.id], student);
       router.push("/dashboard");
-    } catch {
-      setError("Erro de conexão");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erro ao criar perfil");
     } finally {
       setLoading(false);
     }
