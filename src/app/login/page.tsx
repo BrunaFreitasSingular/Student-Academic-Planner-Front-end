@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/src/components/Button";
 import { Input } from "@/src/components/Input";
 
@@ -50,9 +51,12 @@ export default function LoginPage() {
             >
               {loading ? "Logging in.." : "Sign in"}
             </Button>
-            <Button variant="secondary" href="/">
+            <Link
+              href="/register"
+              className="text-sm px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium inline-flex items-center justify-center"
+            >
               Create account
-            </Button>
+            </Link>
           </div>
         </div>
       </div>

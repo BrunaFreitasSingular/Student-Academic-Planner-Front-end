@@ -1,5 +1,5 @@
 export type Course = {
-  id: number | null;
+  id: number;
   name: string;
   requiredCredits: number;
   electiveCredits: number;

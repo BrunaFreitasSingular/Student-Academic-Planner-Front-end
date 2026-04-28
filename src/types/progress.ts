@@ -1,5 +1,4 @@
 export type Progress = {
-  id_user: string;
   completedRequiredCredits: number;
   finishedPercentage: number;
   requiredPercentage: number;
@@ -7,4 +6,6 @@ export type Progress = {
   complementary: number;
   totalRequiredCredits: number;
   totalSubjects: number;
+  progressid_student?: number;
+  progressCourse_id?: number;
 };

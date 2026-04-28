@@ -2,21 +2,17 @@ import { forwardAuth } from "../_lib/forward";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const id_student = searchParams.get("id_student");
+  const userId = searchParams.get("user_id");
 
-  if (!id_student) {
+  if (!userId) {
     return Response.json(
-      {
-        statusCode: 400,
-        error: "Bad Request",
-        message: "id_student é obrigatório",
-      },
+      { statusCode: 400, error: "Bad Request", message: "user_id é obrigatório" },
       { status: 400 },
     );
   }
 
   const upstream = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/subjects?id_student=${encodeURIComponent(id_student)}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/students?user_id=${encodeURIComponent(userId)}`,
     { headers: forwardAuth(request) },
   );
 
@@ -29,7 +25,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const body = await request.text();
 
-  const upstream = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subjects`, {
+  const upstream = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/students`, {
     method: "POST",
     headers: { "Content-Type": "application/json", ...forwardAuth(request) },
     body,

@@ -3,13 +3,13 @@
 import { MainContent } from "@/src/components/MainContent";
 import { AsideContent } from "@/src/components/AsideContent";
 import { DashboardContent } from "@/src/components/DashboardContent";
-import { useAuth } from "@/src/context/AuthContext";
 import { ProtectedRoute } from "@/src/components/ProtectedRoute";
 import useListSubjects from "@/src/hooks/subjects/useListSubject";
+import { useStudent } from "@/src/hooks/student/useStudent";
 import { ProfileCard } from "@/src/components/profileCard";
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { data: student } = useStudent();
   const { isLoading, isError } = useListSubjects();
 
   if (isLoading)
@@ -21,9 +21,9 @@ export default function Dashboard() {
     <ProtectedRoute>
       <div className="p-6 space-y-4">
         <ProfileCard
-          name={user?.student?.name ?? "Usuário"}
-          course={user?.student?.course_name ?? "—"}
-          semester={`${user?.student?.semester}º`}
+          name={student?.name ?? "Usuário"}
+          course={student?.course_name ?? "—"}
+          semester={student?.semester ? `${student.semester}º` : "—"}
           image="/images/profile.jpg"
         />
 
